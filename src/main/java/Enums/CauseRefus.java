@@ -1,9 +1,0 @@
-package Enums;
-
-public enum CauseRefus {
-
-    RUPTURE_STOCK,
-    QUANTITE_INSUFFISANTE,
-    ARTICLE_INEXISTANT,
-    DEMANDE_INCORRECTE
-}
