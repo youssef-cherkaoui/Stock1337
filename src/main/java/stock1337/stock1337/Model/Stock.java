@@ -24,6 +24,9 @@ public class Stock {
     @OneToMany
     private List<Article> article;
 
+    @ManyToOne
+    private Departement departement;
+
     private String localisation;
 
 }
