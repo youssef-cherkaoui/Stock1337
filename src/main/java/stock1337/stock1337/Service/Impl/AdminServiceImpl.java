@@ -54,7 +54,4 @@ public class AdminServiceImpl implements AdminService {
                 .orElseThrow( () -> new RuntimeException("No Admin found with email: " + email));
     }
 
-
-
-
 }
