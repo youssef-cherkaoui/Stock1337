@@ -30,20 +30,20 @@ public class AuthenticationService {
     private final UserRepository userRepository;
 
 
-    public AuthenticationResponse registePerson(RegisterRequest request) {
-        var user = Person.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .build();
-
-        var admin = personRepository.save(user);
-
-        var jwtToken = jwtService.generateToken(user);
-         return AuthenticationResponse.builder()
-                 .token(jwtToken).user(admin)
-                 .build();
-    }
+//    public AuthenticationResponse registePerson(RegisterRequest request) {
+//        var user = Person.builder()
+//                .name(request.getName())
+//                .email(request.getEmail())
+//                .password(passwordEncoder.encode(request.getPassword()))
+//                .build();
+//
+//        var admin = personRepository.save(user);
+//
+//        var jwtToken = jwtService.generateToken(user);
+//         return AuthenticationResponse.builder()
+//                 .token(jwtToken).user(admin)
+//                 .build();
+//    }
 
 
     public AuthenticationResponse registerUser(RegisterRequest request) {
