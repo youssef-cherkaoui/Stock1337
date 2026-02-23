@@ -1,22 +1,26 @@
 package stock1337.stock1337.Model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nom;
+    private String name;
     private String description;
+    private int quantity;
+    private int minThreshold = 5;
 
+    @ManyToOne
+    @JoinColumn(name = "departement_id")
+    private Departement departement;
 }
