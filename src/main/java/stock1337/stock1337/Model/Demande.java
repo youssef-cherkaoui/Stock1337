@@ -26,7 +26,7 @@ public class Demande {
     @ManyToOne
     private Article article;
 
-    private int QualityRequired;
+    private int QuantityRequired;
 
     private LocalDate dateTime;
 
@@ -36,5 +36,12 @@ public class Demande {
     @Enumerated(EnumType.STRING)
     private CauseRefus causeRefus;
 
-    private String commentaire; //more details for causeRefus
+    @ManyToOne
+    private User user;
+
+    @PrePersist
+    protected void onCreate() {
+        dateTime = LocalDate.now();
+    }
+
 }
