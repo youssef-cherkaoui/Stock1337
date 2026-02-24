@@ -10,9 +10,10 @@ public interface DemandeService {
 
 
 
-    Demande createDemande(User user,Long IdArticle, Integer quantity);
+    Demande createDemande(String email,Long IdArticle, Integer quantity);
     Demande aprouveDemande(Long IdDemande);
     Demande rejectDemande(Long IdDemande, CauseRefus cause);
     List<Demande> getPendingDemandes();
     List<Demande> getUserDemandes(Long IdUser);
+    List<Demande> getDemandesByEmail(String email);
 }
