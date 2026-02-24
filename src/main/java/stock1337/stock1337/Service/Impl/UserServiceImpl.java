@@ -1,6 +1,7 @@
 package stock1337.stock1337.Service.Impl;
 
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import stock1337.stock1337.Enums.Role;
 import stock1337.stock1337.Model.User;
 import stock1337.stock1337.Repository.UserRepository;
@@ -16,7 +17,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService {
         User existUser = getUserById(Id);
         existUser.setName(user.getName());
         existUser.setEmail(user.getEmail());
-        existUser.setPassword(user.getPassword());
+        existUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(existUser);
     }
