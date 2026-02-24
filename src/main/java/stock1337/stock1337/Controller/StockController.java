@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import stock1337.stock1337.DTO.StockRequest;
 import stock1337.stock1337.Model.Stock;
 import stock1337.stock1337.Service.StockService;
 
@@ -17,7 +18,7 @@ public class StockController {
 
     private final StockService stockService;
 
-    @RequestMapping("/all")
+    @GetMapping("/all")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Stock>> getAll() {
         return ResponseEntity.ok(stockService.getAllStocks());
@@ -35,9 +36,17 @@ public class StockController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Stock> updateStock(
             @PathVariable Long id,
-            @RequestBody Stock stock
+            @RequestBody StockRequest request
     ){
-        return ResponseEntity.ok(stockService.updateStock(id, stock));
+        return ResponseEntity.ok(stockService.updateStock(id, request));
+    }
+
+    @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Stock> createStock(
+            @RequestBody StockRequest request
+            ){
+        return ResponseEntity.ok(stockService.createStock(request));
     }
 
 
