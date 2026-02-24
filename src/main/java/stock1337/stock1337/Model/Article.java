@@ -21,6 +21,10 @@ public class Article {
     private int minThreshold = 5;
 
     @ManyToOne
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
+
+    @ManyToOne
     @JoinColumn(name = "departement_id")
     private Departement departement;
 }
