@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,6 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -31,12 +33,20 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/v1/auth/register/**",
                                 "/api/v1/auth/authenticate"
-
                         ).permitAll()
-                        .requestMatchers("/api/v1/auth/User/**").hasAuthority("USER")
-                        .requestMatchers("/api/v1/auth/Admin/**" , "/api/v1/auth/departements/**").hasAuthority("ADMIN")
-                        .anyRequest()
-                        .authenticated()
+
+                        .requestMatchers("/api/v1/auth/Admin/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/auth/User/**").hasAuthority("ROLE_USER")
+                        .requestMatchers("/api/v1/auth/departements/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/auth/stocks/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/auth/demandes/pending").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/auth/demandes/*/approve").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/auth/demandes/*/reject").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/auth/demandes/create").hasAuthority("ROLE_USER")
+                        .requestMatchers("/api/v1/auth/demandes/my-demandes").hasAuthority("ROLE_USER")
+                        .requestMatchers("/api/v1/auth/articles/search").authenticated()
+                        .requestMatchers("/api/v1/auth/articles/**").hasAuthority("ROLE_ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
