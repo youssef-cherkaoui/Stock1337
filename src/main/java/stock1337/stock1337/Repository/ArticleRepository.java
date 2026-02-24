@@ -17,4 +17,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query("select a from Article a where a.quantity <= a.minThreshold")
     List<Article> FindLowStockArticles();
+
+    List<Article> findByStockId(Long stockId);
 }
