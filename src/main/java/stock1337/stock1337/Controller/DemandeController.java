@@ -4,6 +4,8 @@ package stock1337.stock1337.Controller;
 import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import stock1337.stock1337.Enums.CauseRefus;
 import stock1337.stock1337.Model.Demande;
@@ -23,9 +25,9 @@ public class DemandeController {
     public ResponseEntity<Demande> create (
             @RequestParam Long ArticleId,
             @RequestParam Integer qte,
-            @RequestBody User user
+            @AuthenticationPrincipal UserDetails userDetails
     ){
-        return ResponseEntity.ok(demandeservice.createDemande(user, ArticleId, qte));
+        return ResponseEntity.ok(demandeservice.createDemande(userDetails.getUsername(), ArticleId, qte));
     }
 
     @GetMapping("/pending")
@@ -46,5 +48,13 @@ public class DemandeController {
             @RequestParam CauseRefus cause
             ){
         return ResponseEntity.ok(demandeservice.rejectDemande(id, cause));
+    }
+
+    @GetMapping("/my-demandes")
+    public ResponseEntity<List<Demande>> getMyDemandes(
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+
+       return ResponseEntity.ok(demandeservice.getDemandesByEmail(userDetails.getUsername()));
     }
 }
