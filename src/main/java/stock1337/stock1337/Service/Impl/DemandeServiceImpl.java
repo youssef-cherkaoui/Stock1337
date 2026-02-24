@@ -10,6 +10,7 @@ import stock1337.stock1337.Model.Demande;
 import stock1337.stock1337.Model.User;
 import stock1337.stock1337.Repository.ArticleRepository;
 import stock1337.stock1337.Repository.DemandeRepository;
+import stock1337.stock1337.Repository.UserRepository;
 import stock1337.stock1337.Service.DemandeService;
 
 import java.util.List;
@@ -23,9 +24,13 @@ public class DemandeServiceImpl implements DemandeService {
 
     private final DemandeRepository demandeRepository;
     private final ArticleRepository articleRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public Demande createDemande(User user, Long IdArticle, Integer quantity) {
+    public Demande createDemande(String email, Long IdArticle, Integer quantity) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Article article = articleRepository.findById(IdArticle)
                 .orElseThrow(() -> new RuntimeException("Article not found"));
@@ -76,5 +81,12 @@ public class DemandeServiceImpl implements DemandeService {
     @Override
     public List<Demande> getUserDemandes(Long IdUser) {
         return demandeRepository.findByUserId(IdUser);
+    }
+
+    @Override
+    public List<Demande> getDemandesByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return demandeRepository.findByUserId(user.getId());
     }
 }
