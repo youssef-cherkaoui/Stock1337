@@ -2,6 +2,7 @@ package stock1337.stock1337.Service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import stock1337.stock1337.Model.Demande;
 import stock1337.stock1337.Model.Departement;
 import stock1337.stock1337.Repository.DepartementRepository;
 import stock1337.stock1337.Service.DepartementService;
@@ -38,4 +39,7 @@ public class DepartementServiceImpl implements DepartementService {
     public void deleteDepartement(Long id) {
         departementRepository.deleteById(id);
     }
+
+
+
 }
