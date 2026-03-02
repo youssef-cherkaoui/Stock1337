@@ -18,7 +18,7 @@ import java.util.Optional;
 
 
 @ExtendWith(MockitoExtension.class)
-public class AdminServiceTest {
+ class AdminServiceTest {
 
     @Mock
     private AdminRepository adminRepository;
