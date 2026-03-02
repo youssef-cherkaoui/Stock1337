@@ -1,0 +1,58 @@
+package stock1337.stock1337.controller;
+
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+import stock1337.stock1337.enums.CauseRefus;
+import stock1337.stock1337.model.Demande;
+import stock1337.stock1337.service.DemandeService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/auth/demandes")
+@RequiredArgsConstructor
+public class DemandeController {
+
+    private final DemandeService demandeservice;
+
+    @PostMapping("/create")
+    public ResponseEntity<Demande> create (
+            @RequestParam Long ArticleId,
+            @RequestParam Integer qte,
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+        return ResponseEntity.ok(demandeservice.createDemande(userDetails.getUsername(), ArticleId, qte));
+    }
+
+    @GetMapping("/pending")
+    public ResponseEntity<List<Demande>> getPendingDemandes(){
+        return ResponseEntity.ok(demandeservice.getPendingDemandes());
+    }
+
+    @PutMapping("{id}/approve")
+    public ResponseEntity<Demande> approve (
+            @PathVariable Long id
+    ){
+        return ResponseEntity.ok(demandeservice.aprouveDemande(id));
+    }
+
+    @PutMapping("{id}/reject")
+    public ResponseEntity<Demande> reject (
+            @PathVariable Long id,
+            @RequestParam CauseRefus cause
+            ){
+        return ResponseEntity.ok(demandeservice.rejectDemande(id, cause));
+    }
+
+    @GetMapping("/my-demandes")
+    public ResponseEntity<List<Demande>> getMyDemandes(
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+
+       return ResponseEntity.ok(demandeservice.getDemandesByEmail(userDetails.getUsername()));
+    }
+}

@@ -7,12 +7,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import stock1337.stock1337.DTO.StockRequest;
-import stock1337.stock1337.Model.Departement;
-import stock1337.stock1337.Model.Stock;
-import stock1337.stock1337.Repository.DepartementRepository;
-import stock1337.stock1337.Repository.StockRepository;
-import stock1337.stock1337.Service.Impl.StockServiceImpl;
+import stock1337.stock1337.dto.StockRequest;
+import stock1337.stock1337.model.Departement;
+import stock1337.stock1337.model.Stock;
+import stock1337.stock1337.repository.DepartementRepository;
+import stock1337.stock1337.repository.StockRepository;
+import stock1337.stock1337.service.Impl.StockServiceImpl;
 
 import java.util.List;
 import java.util.Optional;

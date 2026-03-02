@@ -7,16 +7,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import stock1337.stock1337.Enums.CauseRefus;
-import stock1337.stock1337.Enums.StatutDemande;
-import stock1337.stock1337.Model.Article;
-import stock1337.stock1337.Model.Demande;
-import stock1337.stock1337.Model.User;
-import stock1337.stock1337.Repository.ArticleRepository;
-import stock1337.stock1337.Repository.DemandeRepository;
-import stock1337.stock1337.Repository.UserRepository;
-import stock1337.stock1337.Service.DemandeService;
-import stock1337.stock1337.Service.Impl.DemandeServiceImpl;
+import stock1337.stock1337.enums.CauseRefus;
+import stock1337.stock1337.enums.StatutDemande;
+import stock1337.stock1337.model.Article;
+import stock1337.stock1337.model.Demande;
+import stock1337.stock1337.model.User;
+import stock1337.stock1337.repository.ArticleRepository;
+import stock1337.stock1337.repository.DemandeRepository;
+import stock1337.stock1337.repository.UserRepository;
+import stock1337.stock1337.service.Impl.DemandeServiceImpl;
 
 import java.util.Optional;
 

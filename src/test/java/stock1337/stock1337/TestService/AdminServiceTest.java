@@ -9,10 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import stock1337.stock1337.Enums.Role;
-import stock1337.stock1337.Model.Admin;
-import stock1337.stock1337.Repository.AdminRepository;
-import stock1337.stock1337.Service.Impl.AdminServiceImpl;
+import stock1337.stock1337.enums.Role;
+import stock1337.stock1337.model.Admin;
+import stock1337.stock1337.repository.AdminRepository;
+import stock1337.stock1337.service.Impl.AdminServiceImpl;
 
 import java.util.Optional;
 

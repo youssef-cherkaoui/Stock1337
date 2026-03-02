@@ -1,0 +1,62 @@
+package stock1337.stock1337.service.Impl;
+
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import stock1337.stock1337.enums.Role;
+import stock1337.stock1337.model.User;
+import stock1337.stock1337.repository.UserRepository;
+import stock1337.stock1337.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
+    @Override
+    public User createUser(User user) {
+        user.setRole(Role.USER);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User updateUser(Long Id, User user) {
+        User existUser = getUserById(Id);
+        existUser.setName(user.getName());
+        existUser.setEmail(user.getEmail());
+        existUser.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        return userRepository.save(existUser);
+    }
+
+    @Override
+    public void deleteUser(Long Id) {
+        userRepository.deleteById(Id);
+
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+}

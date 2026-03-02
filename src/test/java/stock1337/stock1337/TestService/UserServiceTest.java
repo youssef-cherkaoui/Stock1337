@@ -8,10 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import stock1337.stock1337.Enums.Role;
-import stock1337.stock1337.Model.User;
-import stock1337.stock1337.Repository.UserRepository;
-import stock1337.stock1337.Service.Impl.UserServiceImpl;
+import stock1337.stock1337.enums.Role;
+import stock1337.stock1337.model.User;
+import stock1337.stock1337.repository.UserRepository;
+import stock1337.stock1337.service.Impl.UserServiceImpl;
 
 import java.util.Optional;
 

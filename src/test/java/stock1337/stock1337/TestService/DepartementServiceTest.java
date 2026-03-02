@@ -8,11 +8,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import stock1337.stock1337.Model.Departement;
-import stock1337.stock1337.Repository.DepartementRepository;
-import stock1337.stock1337.Service.Impl.DepartementServiceImpl;
+import stock1337.stock1337.model.Departement;
+import stock1337.stock1337.repository.DepartementRepository;
+import stock1337.stock1337.service.Impl.DepartementServiceImpl;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
