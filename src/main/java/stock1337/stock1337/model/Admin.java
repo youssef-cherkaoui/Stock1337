@@ -8,10 +8,9 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @DiscriminatorValue("admin")
 public class Admin extends Person {
 
-    public Admin(){
 
-    }
 }
