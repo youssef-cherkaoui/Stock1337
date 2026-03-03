@@ -1,6 +1,7 @@
 package stock1337.stock1337.service.Impl;
 
 
+import lombok.RequiredArgsConstructor;
 import stock1337.stock1337.enums.Role;
 import stock1337.stock1337.model.Admin;
 import stock1337.stock1337.repository.AdminRepository;
@@ -11,10 +12,11 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private AdminRepository adminRepository;
+
+    private final AdminRepository adminRepository;
 
     @Override
     public Admin createAdmin(Admin admin) {
