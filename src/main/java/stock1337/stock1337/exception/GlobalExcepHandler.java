@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class GlobalExcepHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<?> handleRuntimeException(RuntimeException e, WebRequest request) {
+    public ResponseEntity<ErrorDetails> handleRuntimeException(RuntimeException e, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(
                 LocalDateTime.now(),
                 e.getMessage(),
@@ -24,7 +24,7 @@ public class GlobalExcepHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e, WebRequest request) {
+    public ResponseEntity<ErrorDetails> handleEntityNotFoundException(EntityNotFoundException e, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(
                 LocalDateTime.now(),
                 e.getMessage(),
