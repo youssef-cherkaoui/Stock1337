@@ -52,7 +52,7 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.valueOf("USER"));
 
-        System.out.println(user);
+        
 
         var user1 = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
