@@ -1,6 +1,7 @@
 package stock1337.stock1337.configuration;
 
 
+import lombok.NonNull;
 import stock1337.stock1337.serviceAuth.JWTService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -29,13 +30,22 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
+           @NonNull HttpServletRequest request,
+           @NonNull HttpServletResponse response,
+           @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+        final String requestPATH = request.getRequestURI();
+        System.out.println("JWT Filter - Path: " + requestPATH);
+
+        if(shouldNotFilter(request)){
+            System.out.println("JWT Filter - Request: " + requestPATH);
+            filterChain.doFilter(request, response);
+            return;
+        }
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String UtilisateurEmail;
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -67,5 +77,12 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
 
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.startsWith("/api/v1/auth/register/")
+                || path.equals("/api/v1/auth/authenticate");
     }
 }
