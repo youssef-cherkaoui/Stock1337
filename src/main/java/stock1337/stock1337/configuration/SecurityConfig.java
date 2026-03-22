@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/demandes/my-demandes").hasAuthority("ROLE_USER")
                         .requestMatchers("/api/v1/auth/articles/search").authenticated()
                         .requestMatchers("/api/v1/auth/articles/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/auth/history/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
