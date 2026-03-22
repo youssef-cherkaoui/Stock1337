@@ -8,11 +8,14 @@ import stock1337.stock1337.enums.StatutDemande;
 import stock1337.stock1337.model.Article;
 import stock1337.stock1337.model.Demande;
 import stock1337.stock1337.model.User;
+import stock1337.stock1337.model.stockHistory;
 import stock1337.stock1337.repository.ArticleRepository;
 import stock1337.stock1337.repository.DemandeRepository;
+import stock1337.stock1337.repository.StockHistoryRepository;
 import stock1337.stock1337.repository.UserRepository;
 import stock1337.stock1337.service.DemandeService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -25,6 +28,7 @@ public class DemandeServiceImpl implements DemandeService {
     private final DemandeRepository demandeRepository;
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
+    private final StockHistoryRepository stockHistoryRepository;
 
     @Override
     public Demande createDemande(String email, Long IdArticle, Integer quantity) {
@@ -58,6 +62,13 @@ public class DemandeServiceImpl implements DemandeService {
         demande.setStatut(StatutDemande.ACCEPTEE);
 
         articleRepository.save(article);
+
+        stockHistory history = stockHistory.builder()
+                .article(article)
+                .quantity(article.getQuantity())
+                .recordedAt(LocalDateTime.now())
+                .build();
+        stockHistoryRepository.save(history);
         return demandeRepository.save(demande);
     }
 
