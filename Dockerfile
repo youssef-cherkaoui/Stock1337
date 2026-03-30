@@ -1,4 +1,13 @@
-#FROM eclipse-temurin:17-jdk
-#VOLUME /tmp
-#ADD target/*.jar Stock1337.jar
-#ENTRYPOINT ["java", "-jar", "Stock1337.jar"]
+
+FROM maven:3.9.0-eclipse-temurin-17-alpine AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8087
+ENTRYPOINT ["java", "-jar", "app.jar"]
