@@ -6,7 +6,15 @@ import stock1337.stock1337.model.Article;
 import java.util.List;
 
 public interface ArticleService {
-    Article createArticle (ArticleRequest request);
+    Article createArticle(ArticleRequest request);
+
     List<Article> searchArticle(Long stockId, Long departementID);
+
     List<Article> getLowStockArticles();
+
+    Article updateQuantity(Long articleId, int newQuantity);
+
+    Article updateArticle(Long id, ArticleRequest request);
+
+    void deleteArticle(Long id);
 }

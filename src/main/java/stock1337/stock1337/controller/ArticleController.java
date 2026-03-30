@@ -40,4 +40,18 @@ public class ArticleController {
     public ResponseEntity<List<Article>> getLowStockArticles(){
         return ResponseEntity.ok(articleService.getLowStockArticles());
     }
+
+    @PutMapping("update-article/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Article> updateArticle(@PathVariable Long id,
+                                                 @RequestBody ArticleRequest request){
+        return ResponseEntity.ok(articleService.updateArticle(id, request));
+    }
+
+    @DeleteMapping("delete-article/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteArticle(@PathVariable Long id){
+        articleRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
