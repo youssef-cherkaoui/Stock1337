@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 public class Stock1337Application {
 
 	public static void main(String[] args) {
+		System.out.println("hello world");
 		SpringApplication.run(Stock1337Application.class, args);
 	}
 
