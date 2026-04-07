@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import stock1337.stock1337.dto.ArticleRequest;
+import stock1337.stock1337.enums.HistoryType;
 import stock1337.stock1337.model.Article;
 import stock1337.stock1337.model.Departement;
 import stock1337.stock1337.model.Stock;
@@ -12,6 +13,7 @@ import stock1337.stock1337.repository.DepartementRepository;
 import stock1337.stock1337.repository.StockRepository;
 import stock1337.stock1337.service.ArticleService;
 import stock1337.stock1337.service.EmailAlertService;
+import stock1337.stock1337.service.StockHistoryService;
 
 import java.util.List;
 
@@ -24,6 +26,8 @@ public class ArticleServiceImpl implements ArticleService {
     private final StockRepository stockRepository;
     private final DepartementRepository departementRepository;
     private final EmailAlertService emailAlertService;
+    private final ArticleRepository articleRepo;
+    private final StockHistoryService stockHistoryService;
 
     @Override
     public Article createArticle(ArticleRequest request) {
@@ -110,6 +114,24 @@ public class ArticleServiceImpl implements ArticleService {
                 .orElseThrow(() -> new RuntimeException("Article not found" + id));
         articleRepository.delete(article);
 
+    }
+
+
+    public void addStock(Long articleId, Long stockId, int quantity, String reason) {
+        Article article = articleRepo.findById(articleId)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+
+
+        article.setQuantity(article.getQuantity() + quantity);
+        articleRepo.save(article);
+
+        stockHistoryService.recordHistory(
+                articleId,
+                stockId,
+                quantity,
+                HistoryType.ENTREE,
+                reason
+        );
     }
 
 

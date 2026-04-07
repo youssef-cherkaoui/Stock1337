@@ -20,4 +20,7 @@ public interface StockHistoryRepository extends JpaRepository<stockHistory, Long
     List<stockHistory> findRecentHistory(
             @Param("from") LocalDateTime from
     );
+
+    @Query("SELECT h FROM stockHistory h ORDER BY h.recordedAt DESC")
+    List<stockHistory> findAllByOrderByRecordedAtDesc();
 }

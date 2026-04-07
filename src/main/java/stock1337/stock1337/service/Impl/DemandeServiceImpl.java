@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import stock1337.stock1337.enums.CauseRefus;
+import stock1337.stock1337.enums.HistoryType;
 import stock1337.stock1337.enums.StatutDemande;
 import stock1337.stock1337.model.Article;
 import stock1337.stock1337.model.Demande;
@@ -14,6 +15,7 @@ import stock1337.stock1337.repository.DemandeRepository;
 import stock1337.stock1337.repository.StockHistoryRepository;
 import stock1337.stock1337.repository.UserRepository;
 import stock1337.stock1337.service.DemandeService;
+import stock1337.stock1337.service.StockHistoryService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +31,8 @@ public class DemandeServiceImpl implements DemandeService {
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final StockHistoryRepository stockHistoryRepository;
+    private final StockHistoryService stockHistoryService;  // ← Inject hna
+
 
     @Override
     public Demande createDemande(String email, Long IdArticle, Integer quantity) {
@@ -39,11 +43,21 @@ public class DemandeServiceImpl implements DemandeService {
         Article article = articleRepository.findById(IdArticle)
                 .orElseThrow(() -> new RuntimeException("Article not found"));
 
+        // ← Zid historique HNA (9bel ma t creer demande)
+        stockHistoryService.recordHistory(
+                IdArticle,
+                article.getStock() != null ? article.getStock().getId() : null,  // Jib stock men article
+                -quantity,  // SORTIE (négatif 7it khroj)
+                HistoryType.SORTIE,
+                "Demande créée par " + user.getName()
+        );
+
         Demande demande = new Demande();
         demande.setUser(user);
         demande.setArticle(article);
         demande.setQuantityRequired(quantity);
         demande.setStatut(StatutDemande.EN_ATTENTE);
+
         return demandeRepository.save(demande);
     }
 
@@ -65,7 +79,7 @@ public class DemandeServiceImpl implements DemandeService {
 
         stockHistory history = stockHistory.builder()
                 .article(article)
-                .quantity(article.getQuantity())
+                .quantityChange(article.getQuantity())
                 .recordedAt(LocalDateTime.now())
                 .build();
         stockHistoryRepository.save(history);
