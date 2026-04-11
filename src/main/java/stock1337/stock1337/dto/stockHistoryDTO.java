@@ -14,6 +14,7 @@ public class stockHistoryDTO {
     private Long articleId;
     private String articleName;
     private String stockName;
+    private String departementName;
     private String userName;
 
     @Builder.Default
@@ -29,5 +30,6 @@ public class stockHistoryDTO {
 
     private boolean hasUser;
     private boolean hasStock;
+    private boolean hasDepartement;
 
 }

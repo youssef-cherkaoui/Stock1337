@@ -32,23 +32,20 @@ public class StockHistoryServiceImpl implements StockHistoryService {
                               Integer quantityChange,
                               HistoryType type, String reason) {
 
-        // 1. Jib user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         User user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found: " + email));
 
-        // 2. Jib article
         Article article = articleRepo.findById(articleId)
                 .orElseThrow(() -> new RuntimeException("Article not found: " + articleId));
 
-        // 3. Jib stock (men paramètre wla men article)
         Stock stock;
         if (stockId != null) {
             stock = stockRepo.findById(stockId)
                     .orElseThrow(() -> new RuntimeException("Stock not found: " + stockId));
         } else {
-            stock = article.getStock();  // Jib men article
+            stock = article.getStock();
             if (stock == null) {
                 throw new RuntimeException("Article n'a pas de stock");
             }
@@ -56,8 +53,8 @@ public class StockHistoryServiceImpl implements StockHistoryService {
 
         stockHistory history = stockHistory.builder()
                 .article(article)
-                .stock(stock)      // 7a9i9i
-                .user(user)        // 7a9i9i
+                .stock(stock)
+                .user(user)
                 .quantityChange(quantityChange)
                 .type(type)
                 .reason(reason)

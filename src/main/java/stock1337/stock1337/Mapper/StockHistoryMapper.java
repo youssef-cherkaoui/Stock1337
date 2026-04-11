@@ -4,7 +4,7 @@ package stock1337.stock1337.Mapper;
 import org.springframework.stereotype.Component;
 import stock1337.stock1337.dto.stockHistoryDTO;
 import stock1337.stock1337.enums.HistoryType;
-import stock1337.stock1337.model.stockHistory;
+import stock1337.stock1337.model.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,28 +13,53 @@ import java.util.stream.Collectors;
 public class StockHistoryMapper {
 
     public stockHistoryDTO toDTO(stockHistory history) {
-        if (history == null) {
-            return null;
+        if (history == null) return null;
+
+        Article article = history.getArticle();
+        Stock articleStock = article != null ? article.getStock() : null;
+        Stock directStock = history.getStock();
+        Stock effectiveStock = directStock != null ? directStock : articleStock;
+        Departement departement = effectiveStock != null ? effectiveStock.getDepartement() : null;
+
+        User user = history.getUser();
+
+
+        String userDisplayName = "Système";
+        boolean userExists = false;
+
+        if (user != null) {
+            userExists = true;
+            String name = user.getName();
+            String email = user.getEmail();
+
+            if (name != null && !name.trim().isEmpty()) {
+                userDisplayName = name;
+            } else if (email != null && !email.trim().isEmpty()) {
+
+                int atIndex = email.indexOf('@');
+                if (atIndex > 0) {
+                    userDisplayName = email.substring(0, atIndex);
+                } else {
+                    userDisplayName = email;
+                }
+            }
         }
 
         return stockHistoryDTO.builder()
                 .id(history.getId())
-                .articleId(history.getArticle() != null ? history.getArticle().getId() : null)
-                .articleName(history.getArticle() != null ? history.getArticle().getName() : "Article supprimé")
-                .stockName(history.getStock() != null ? history.getStock().getName() : "Stock non spécifié")
-                .userName(history.getUser() != null ? history.getUser().getName() : "Système")
+                .articleId(article != null ? article.getId() : null)
+                .articleName(article != null ? article.getName() : "Article supprimé")
+                .stockName(effectiveStock != null ? effectiveStock.getName() : "Stock non spécifié")
+                .departementName(departement != null ? departement.getName() : "Département non spécifié")
+                .userName(userDisplayName)
                 .quantityChange(history.getQuantityChange() != null ? history.getQuantityChange() : 0)
                 .type(history.getType() != null ? history.getType() : HistoryType.AJUSTEMENT)
                 .reason(history.getReason() != null ? history.getReason() : "Non spécifié")
                 .recordedAt(history.getRecordedAt())
-                .hasUser(history.getUser() != null)
-                .hasStock(history.getStock() != null)
+                .hasUser(userExists)
+                .hasStock(effectiveStock != null)
+                .hasDepartement(departement != null)
                 .build();
     }
-
-    public List<stockHistoryDTO> toDTOList(List<stockHistory> histories) {
-        return histories.stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
-    }
 }
+
